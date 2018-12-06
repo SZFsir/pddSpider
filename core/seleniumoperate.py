@@ -14,7 +14,7 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.common.exceptions import NoSuchElementException
-from utils.threadpool import ThreadPool
+from core.threadpool import ThreadPool
 
 tokens = []
 
