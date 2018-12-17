@@ -53,7 +53,7 @@ class Chaojiying_Client(object):
 
 
 if __name__ == '__main__':
-    chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799', '6001')  # 用户中心>>软件ID 生成一个替换 96001
+    chaojiying = Chaojiying_Client('username', 'password', '6001')  # 用户中心>>软件ID 生成一个替换 96001
 
     ls = [os.path.join('.', image_file) for image_file in os.listdir('.')]
     for img in ls:
