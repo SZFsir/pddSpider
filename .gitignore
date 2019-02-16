@@ -1,0 +1,13 @@
+*test*
+*.pyc
+ca.*
+geckodriver.log
+.idea
+comm.txt
+replace_image.py
+get_captcha.py
+image.jpg
+tmp/
+venv/
+comments/
+123.jpg

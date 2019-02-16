@@ -4,13 +4,14 @@
 # Date: 18-12-1
 import pymysql
 import traceback
+import pymongo
 
 
 class DbOperate(object):
     """Class for Database Operater"""
 
     def __init__(self):
-        db = pymysql.connect('127.0.0.1', 'root', '123456', 'PDD')
+        db = pymysql.connect('127.0.0.1', 'jrxnm', '123456', 'pdd')
         cursor = db.cursor()
         self.db = db
         self.cursor = cursor
@@ -70,10 +71,86 @@ class DbOperate(object):
         except:
             traceback.print_exc()
 
+    def getOptGoodsList(self, opt):
+        try:
+            sql = "SELECT * from goods WHERE opt={}".format(opt)
+            self.cursor.execute(sql)
+            goods = self.cursor.fetchall()
+            return goods
+        except:
+            traceback.print_exc()
+
+    def getOptGoodsCntSum(self, opt):
+        try:
+            sql = "SELECT sum(cnt) FROM goods WHERE opt={}".format(opt)
+            self.cursor.execute(sql)
+            sums = self.cursor.fetchall()[0]
+            return sums
+        except:
+            traceback.print_exc()
+
+
+class MonggodbOperate(object):
+
+    def __init__(self):
+        self.client = pymongo.MongoClient('localhost')
+        self.db = self.client['PDDComments']
+
+    def deleteOnegoods(self, goods_id):
+        self.db['comments'].remove({'goods_id': goods_id})
+
+    def getOneGoods(self, goods_id):
+        good = self.db['comments'].find_one({'goods_id': goods_id})
+        return good
+
+    def statetest(self):
+        state = self.db['count'].find_one()
+        print(state)
+        state.pop('_id')
+        print(state)
+
+
+def getCommentAverage(dic):
+    sums = 0
+    goods_lens = 0
+    for opt in dic.keys():
+        cnt_sum = d.getOptGoodsCntSum(opt)
+        goods_len = len(d.getOptGoodsList(opt))
+        goods_lens += goods_len
+        sums += int(cnt_sum[0])
+
+    revs = 0
+    for rev in dic.values():
+        revs += rev
+
+    print(sums, revs, goods_lens, revs / goods_lens, sums / revs)
+
+
+def deleteOneopt(opt):
+    goodss = d.getOptGoodsList(opt)
+
+    for goods in goodss:
+        # print(goods[0])
+        # print(m.getOneGoods(goods[0]))
+        m.deleteOnegoods(goods[0])
 
 
 if __name__ == '__main__':
     d = DbOperate()
-    print(d.getgoodsidlist())
-    d.insertgoods('1234567','','','','','','','','','','',111)
+    m = MonggodbOperate()
+    #print(d.getgoodsidlist())
+    #d.insertgoods('1234567','','','','','','','','','','',111)
+    
+    dic = {
+        "6212": 1380, "6214": 4153, "6235": 33939, "6220": 69071, "6219": 122326, "6210": 21516, "6209": 10202,
+        "6218": 34763, "6211": 254, "6251": 58, "6234": 38856, "6215": 1457, "6276": 15950, "6277": 3143, "6197": 36413,
+        "6213": 1083, "6250": 7196, "6203": 53787, "6217": 317, "6204": 2430, "6216": 2834
+    }
+    getCommentAverage(dic)
+    #deleteOneopt('6219')
+    #m.statetest()
+
+
+
+
 

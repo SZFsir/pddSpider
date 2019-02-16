@@ -16,8 +16,23 @@ from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.common.exceptions import NoSuchElementException
 from core.threadpool import ThreadPool
 
-tokens = []
 
+
+tokens = []
+# # g
+# tokens.append('')
+# s1
+tokens.append('7MVC7KGJI5Z37RZOIBIAHOLYF4BAZWTQGRKUW5RFFU6GQP7TQ6DQ100740d')
+# s2
+tokens.append('X3PEVNU6MCI6ZYHEXYOQ4BNVTNEPD5XLSJ6U7TB2EG5MEU4N65GQ102f17c')
+# # f
+# tokens.append('LB5KVDSJWI7JMMILBW6UVURM72JGUHYQITPWHVB2Q4HHWXC4I5WQ103b255')
+# l
+tokens.append('RZ34GD74E3W3OCREF5UDS4OXPON4EGS7V7RYJTWBYDL2U5FYRXRQ101c635')
+# # h
+# tokens.append('NXJZHFYYREKXDWG3U3C4Y3K5FSQM24GRGELFTGCBAJU5KZK6RG6A102e759')
+# # j
+# tokens.append('MDY2BUSY6XNUYW63WP3T5QUJDKMISDAIPF2LSPKUFHXHY3GLAWVQ1020ab3')
 
 
 cookie1 = {
@@ -38,7 +53,7 @@ class CaptchaMonitor(object):
     def __init__(self):
         self.checklist = []
         self.loopexam = False
-        self.chaojiying = Chaojiying_Client('username', 'password', '6001')
+        self.chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799.', '6001')
 
     # 检查是否正在等待输入验证码
     @staticmethod
@@ -72,6 +87,7 @@ class CaptchaMonitor(object):
                 else:
                     return True
             else:
+                #time.sleep(100000000)
                 print('Some thing Wrong with result = 0!!!')
                 time.sleep(2)
         return False
@@ -98,7 +114,7 @@ class CaptchaMonitor(object):
             pic_str = cap.get('pic_str', '')
             pic_id = cap.get('pic_id', '')
             inputed.send_keys(pic_str)
-            confirm = browser.find_element_by_xpath('//div[@class="confirm button"]')
+            confirm = browser.find_element_by_xpath('//div[@class="confirm button clickable"]')
             confirm.click()
             print('send the code')
 
@@ -173,6 +189,8 @@ class PDDSelenium(object):
         profile.set_preference("network.proxy.type", 1)
         profile.set_preference("network.proxy.http", self.proxy_ip)
         profile.set_preference("network.proxy.http_port", self.proxy_port)
+        profile.set_preference('network.proxy.ssl', self.proxy_ip)
+        profile.set_preference('network.proxy.ssl_port', self.proxy_port)
         return profile
 
     @staticmethod
@@ -180,7 +198,7 @@ class PDDSelenium(object):
         while True:
             print('scroll Down')
             browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-            time.sleep(1)
+            time.sleep(3)
             pa = re.compile(r'<div class="cell" style')
             res = pa.findall(browser.page_source)
 
@@ -208,7 +226,7 @@ class PDDSelenium(object):
             try:
                 if '没有更多了...' in browser.page_source:
                     print(thread_name, '没有更多了...')
-                    time.sleep(8)
+                    time.sleep(3)
                     break
             except NoSuchElementException:
                 pass
@@ -232,11 +250,12 @@ class PDDSelenium(object):
 
         # 初始化验证码管理类
         caps = CaptchaMonitor()
+        time.sleep(3)
 
         point = browser.find_elements_by_xpath('//li[@class="detail-item"]')
         print('cates', len(point))
         point[m].click()
-        print('qqqq')
+        print('now in %d' % m)
 
         total_len = 0
         i = 0
@@ -252,6 +271,7 @@ class PDDSelenium(object):
             except:
                 traceback.print_exc()
                 break
+            time.sleep(8)
             lenc = len(cats)
             print('lenc', lenc)
             i += 1
@@ -268,16 +288,23 @@ class PDDSelenium(object):
         self.state['goods_down'] = goods_down
         self._saveState()
 
-    # 爬虫任务调度
+    # 商品爬虫任务调度
     def cateGoodsControl(self, n):
         # 恢复爬取状态
-        tp = ThreadPool(n)
+        tp = ThreadPool(n, max_task_num=1)
         while True:
+            if not tp.q.empty():
+               continue
+
             state = self._loadState()
             leave_list = list(range(183))
             if state:
                 goods_down = state.get('goods_down', [])
                 leave_list = list(set(leave_list) - set(goods_down))
+
+            if not leave_list:
+                print("All Things is Done！！！")
+                break
 
             j = 0
             for i in leave_list:
@@ -286,6 +313,7 @@ class PDDSelenium(object):
                 if j == 0:
                     time.sleep(60)
                     j = 1
+            time.sleep(3)
 
 
 if __name__ == '__main__':

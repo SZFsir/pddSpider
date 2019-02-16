@@ -53,13 +53,13 @@ class Chaojiying_Client(object):
 
 
 if __name__ == '__main__':
-    chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799', '6001')  # 用户中心>>软件ID 生成一个替换 96001
+    chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799.', '6001')  # 用户中心>>软件ID 生成一个替换 96001
 
-    ls = [os.path.join('.', image_file) for image_file in os.listdir('.')]
-    for img in ls:
-        if img[-3:] == 'png':
-            im = open(img, 'rb').read()  # 本地图片文件路径 来替换 a.jpg 有时WIN系统须要//
-            ii = chaojiying.PostPic(im, 6001)
-            print(ii)
-            rep = chaojiying.ReportError(ii.get('pic_id'))
-            print(rep)
+    # ls = [os.path.join('.', image_file) for image_file in os.listdir('.')]
+    # for img in ls:
+    # if img[-3:] == 'png':
+    im = open('123.jpg', 'rb').read()  # 本地图片文件路径 来替换 a.jpg 有时WIN系统须要//
+    ii = chaojiying.PostPic(im, 6001)
+    print(ii)
+    rep = chaojiying.ReportError(ii.get('pic_id'))
+    print(rep)

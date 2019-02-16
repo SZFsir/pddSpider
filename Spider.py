@@ -46,9 +46,24 @@ class RspInterceptor(RspIntercept, ReqIntercept):
                 except:
                     print(response.request.path)
                     traceback.print_exc()
+
+        if '.js' in response.request.path:
+            js_body = response.get_body_str('utf-8')
+            js_body = js_body.replace('sourceMappingURL=', '')
+            response.set_body_str(js_body, 'utf-8')
+
+        if 'react_psnl_verification_' in response.request.path:
+            js_body = str(response.get_body_data(), 'utf-8')
+            js_body =  js_body.replace("navigator.webdriver", "navigator.qwerasdfzxcv")
+            response.set_body_data(bytes(js_body, 'utf-8'))
+
         return response
 
     def deal_request(self, request):
+        # print(request.get_body_data())
+        #
+        # request.set_header('DNT', '1')
+        # print(request.get_headers())
         return request
 
 
