@@ -19,16 +19,7 @@ from core.threadpool import ThreadPool
 
 
 tokens = []
-# # g
-# tokens.append('')
-# s1
-tokens.append('7MVC7KGJI5Z37RZOIBIAHOLYF4BAZWTQGRKUW5RFFU6GQP7TQ6DQ100740d')
-# s2
-tokens.append('X3PEVNU6MCI6ZYHEXYOQ4BNVTNEPD5XLSJ6U7TB2EG5MEU4N65GQ102f17c')
-# # f
-# tokens.append('LB5KVDSJWI7JMMILBW6UVURM72JGUHYQITPWHVB2Q4HHWXC4I5WQ103b255')
-# l
-tokens.append('RZ34GD74E3W3OCREF5UDS4OXPON4EGS7V7RYJTWBYDL2U5FYRXRQ101c635')
+
 # # h
 # tokens.append('NXJZHFYYREKXDWG3U3C4Y3K5FSQM24GRGELFTGCBAJU5KZK6RG6A102e759')
 # # j
@@ -53,7 +44,7 @@ class CaptchaMonitor(object):
     def __init__(self):
         self.checklist = []
         self.loopexam = False
-        self.chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799.', '6001')
+        self.chaojiying = Chaojiying_Client('XXXX', 'XXXX', 'XXXXX')
 
     # 检查是否正在等待输入验证码
     @staticmethod
