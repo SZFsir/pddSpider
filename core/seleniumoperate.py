@@ -19,11 +19,24 @@ from core.threadpool import ThreadPool
 
 
 tokens = []
-
+# g
+tokens.append('75BDE7DAIS4KHOH4JT2O3RVT5BJ6NGGJUYLE23F7CS4J3BWXKHJA1020e0d')
+# s1
+tokens.append('7MVC7KGJI5Z37RZOIBIAHOLYF4BAZWTQGRKUW5RFFU6GQP7TQ6DQ100740d')
+# s2
+tokens.append('X3PEVNU6MCI6ZYHEXYOQ4BNVTNEPD5XLSJ6U7TB2EG5MEU4N65GQ102f17c')
+# f
+tokens.append('SPJDURS3Y444GXBS2NAZNYUIW52HCYHMS6IUJQKRQSUAOMFU47BA103b255')
+# l
+tokens.append('RZ34GD74E3W3OCREF5UDS4OXPON4EGS7V7RYJTWBYDL2U5FYRXRQ101c635')
+# l2
+tokens.append('OYW5CSWNHCXUG7X44Q7A7VR4CXRDXBJVMI3IK5QGILY4AVKCU3PA102972b')
+# jjb
+tokens.append('DR6MKEE76PXGNRBJP4BJS273CTJKI5QQPLOQLL7AVNH7AIJIOC6Q1009db6')
 # # h
 # tokens.append('NXJZHFYYREKXDWG3U3C4Y3K5FSQM24GRGELFTGCBAJU5KZK6RG6A102e759')
-# # j
-# tokens.append('MDY2BUSY6XNUYW63WP3T5QUJDKMISDAIPF2LSPKUFHXHY3GLAWVQ1020ab3')
+# j
+tokens.append('3MQ65BLBVRUZODU6ODDF3KEVCFV7YQNELSQG43FBVVXGPOH7KO3Q1020ab3')
 
 
 cookie1 = {
@@ -44,7 +57,7 @@ class CaptchaMonitor(object):
     def __init__(self):
         self.checklist = []
         self.loopexam = False
-        self.chaojiying = Chaojiying_Client('XXXX', 'XXXX', 'XXXXX')
+        self.chaojiying = Chaojiying_Client('JrXnm666', 'sou14707085799.', '6001')
 
     # 检查是否正在等待输入验证码
     @staticmethod
@@ -80,7 +93,7 @@ class CaptchaMonitor(object):
             else:
                 #time.sleep(100000000)
                 print('Some thing Wrong with result = 0!!!')
-                time.sleep(2)
+                time.sleep(1)
         return False
 
     # 验证码处理程序
@@ -91,7 +104,7 @@ class CaptchaMonitor(object):
         self.checklist.append(now)
 
         for i in range(4):
-            time.sleep(3)
+            time.sleep(2)
             # 获得验证码
             img = browser.find_element_by_xpath('//div[@class="captcha"]/img')
             imgs = img.get_attribute('src')
@@ -110,7 +123,7 @@ class CaptchaMonitor(object):
             print('send the code')
 
             checkloop = self.captchaCheckLoop(browser)
-            time.sleep(3)
+            time.sleep(2)
             # 若打码错误，则发送错误，继续重新获取。超过4次返回异常。
             # 若出现
             try:
@@ -189,7 +202,7 @@ class PDDSelenium(object):
         while True:
             print('scroll Down')
             browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-            time.sleep(3)
+            time.sleep(2)
             pa = re.compile(r'<div class="cell" style')
             res = pa.findall(browser.page_source)
 
@@ -262,7 +275,7 @@ class PDDSelenium(object):
             except:
                 traceback.print_exc()
                 break
-            time.sleep(8)
+            time.sleep(5)
             lenc = len(cats)
             print('lenc', lenc)
             i += 1
@@ -289,6 +302,7 @@ class PDDSelenium(object):
 
             state = self._loadState()
             leave_list = list(range(183))
+            leave_list.reverse()
             if state:
                 goods_down = state.get('goods_down', [])
                 leave_list = list(set(leave_list) - set(goods_down))
@@ -310,7 +324,7 @@ class PDDSelenium(object):
 if __name__ == '__main__':
 
     pdd = PDDSelenium()
-    pdd.cateGoodsControl(3)
+    pdd.cateGoodsControl(6)
 
 
 

@@ -12,9 +12,7 @@ class DbOperate(object):
 
     def __init__(self):
         db = pymysql.connect('127.0.0.1', 'jrxnm', '123456', 'pdd')
-        cursor = db.cursor()
         self.db = db
-        self.cursor = cursor
 
     def insertgoods(self, thread_name, goods_id, goods_name, hd_thumb_url, country, event_type,
                     mall_name, group_price, cnt, normal_price, market_price, short_name, opt):
@@ -29,7 +27,9 @@ class DbOperate(object):
                   "'%s', '%s', '%s', '%s', '%s')" % (goods_id, goods_name, hd_thumb_url,
                                                country, event_type, mall_name, group_price,
                                                cnt, normal_price, market_price, short_name, opt)
-            self.cursor.execute(sql)
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            cursor.close()
             self.db.commit()
             return True
         except:
@@ -39,7 +39,9 @@ class DbOperate(object):
         try:
             opt_name = pymysql.escape_string(opt_name)
             sql = "INSERT INTO top_opt VALUES('%s','%s')" % (id, opt_name)
-            self.cursor.execute(sql)
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            cursor.close()
             self.db.commit()
         except:
             traceback.print_exc()
@@ -48,7 +50,9 @@ class DbOperate(object):
         try:
             opt_name = pymysql.escape_string(opt_name)
             sql = "INSERT INTO opt VALUES('%s','%s','%s')" % (id, opt_name, fa_opt)
-            self.cursor.execute(sql)
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            cursor.close()
             self.db.commit()
         except:
             traceback.print_exc()
@@ -56,16 +60,19 @@ class DbOperate(object):
     def getallidlist(self):
         try:
             sql = "SELECT goods_id FROM goods"
-            self.cursor.execute(sql)
-            goods_ids = self.cursor.fetchall()
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            goods_ids = cursor.fetchall()
+
 
             sql = "SELECT id FROM opt"
-            self.cursor.execute(sql)
-            opt_ids = self.cursor.fetchall()
+            cursor.execute(sql)
+            opt_ids = cursor.fetchall()
 
             sql = "SELECT id FROM top_opt"
-            self.cursor.execute(sql)
-            topopt_ids = self.cursor.fetchall()
+            cursor.execute(sql)
+            topopt_ids = cursor.fetchall()
+            cursor.close()
 
             return {'goods': goods_ids, 'opts': opt_ids, 'top_opts': topopt_ids}
         except:
@@ -74,8 +81,10 @@ class DbOperate(object):
     def getOptGoodsList(self, opt):
         try:
             sql = "SELECT * from goods WHERE opt={}".format(opt)
-            self.cursor.execute(sql)
-            goods = self.cursor.fetchall()
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            goods = cursor.fetchall()
+            cursor.close()
             return goods
         except:
             traceback.print_exc()
@@ -83,8 +92,10 @@ class DbOperate(object):
     def getOptGoodsCntSum(self, opt):
         try:
             sql = "SELECT sum(cnt) FROM goods WHERE opt={}".format(opt)
-            self.cursor.execute(sql)
-            sums = self.cursor.fetchall()[0]
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            sums = cursor.fetchall()[0]
+            cursor.close()
             return sums
         except:
             traceback.print_exc()
@@ -138,15 +149,15 @@ def deleteOneopt(opt):
 if __name__ == '__main__':
     d = DbOperate()
     m = MonggodbOperate()
-    #print(d.getgoodsidlist())
-    #d.insertgoods('1234567','','','','','','','','','','',111)
+   # print(d.getgoodsidlist())
+    d.insertgoods('123','123456789','','','','','','',123,'','','',111)
     
-    dic = {
-        "6212": 1380, "6214": 4153, "6235": 33939, "6220": 69071, "6219": 122326, "6210": 21516, "6209": 10202,
-        "6218": 34763, "6211": 254, "6251": 58, "6234": 38856, "6215": 1457, "6276": 15950, "6277": 3143, "6197": 36413,
-        "6213": 1083, "6250": 7196, "6203": 53787, "6217": 317, "6204": 2430, "6216": 2834
-    }
-    getCommentAverage(dic)
+    # dic = {
+    #     "6212": 1380, "6214": 4153, "6235": 33939, "6220": 69071, "6219": 122326, "6210": 21516, "6209": 10202,
+    #     "6218": 34763, "6211": 254, "6251": 58, "6234": 38856, "6215": 1457, "6276": 15950, "6277": 3143, "6197": 36413,
+    #     "6213": 1083, "6250": 7196, "6203": 53787, "6217": 317, "6204": 2430, "6216": 2834
+    # }
+    # getCommentAverage(dic)
     #deleteOneopt('6219')
     #m.statetest()
 
