@@ -5,7 +5,7 @@ certifi==2018.11.29
 cffi==1.11.5
 chardet==3.0.4
 constantly==15.1.0
-cryptography==2.4.2
+cryptography==3.2
 cssselect==1.0.3
 hyperlink==18.0.0
 idna==2.7
